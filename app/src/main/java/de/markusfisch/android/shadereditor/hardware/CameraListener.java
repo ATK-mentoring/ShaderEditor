@@ -124,10 +124,12 @@ public class CameraListener {
 		camera.setDisplayOrientation(frameOrientation);
 
 		Camera.Parameters parameters = camera.getParameters();
+		parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 		parameters.setRotation(frameOrientation);
 		setPreviewSize(parameters);
 		setFastestFps(parameters);
 		setFocusMode(parameters);
+
 		camera.setParameters(parameters);
 
 		surfaceTexture = new SurfaceTexture(cameraTextureId);

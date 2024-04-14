@@ -40,6 +40,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -184,7 +187,39 @@ public class MainActivity
 	@Override
 	protected void onCreate(Bundle state) {
 		super.onCreate(state);
+
+//		WindowInsetsControllerCompat windowInsetsController =
+//				WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
+//		// Configure the behavior of the hidden system bars.
+//		windowInsetsController.setSystemBarsBehavior(
+//				WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+//		);
+
+//		getWindow().getDecorView().setOnApplyWindowInsetsListener((view, windowInsets) -> {
+//			if (windowInsets.isVisible(WindowInsetsCompat.Type.navigationBars())
+//					|| windowInsets.isVisible(WindowInsetsCompat.Type.statusBars())) {
+//
+//				WindowInsetsControllerCompat.hide(WindowInsetsCompat.Type.systemBars());
+//			}
+//
+//			return view.onApplyWindowInsets(windowInsets);
+//		});
+
+//		getWindow().getDecorView().setOnApplyWindowInsetsListener((view, windowInsets) -> {
+//			if (windowInsets.isVisible(WindowInsetsCompat.Type.navigationBars())
+//					|| windowInsets.isVisible(WindowInsetsCompat.Type.statusBars())) {
+//
+//				WindowInsetsControllerCompat.hide(WindowInsetsCompat.Type.systemBars());
+//			}
+//
+//			return view.onApplyWindowInsets(windowInsets);
+//		});
+
+
 		setContentView(R.layout.activity_main);
+
+		//getSupportActionBar().hide();
+		//getActionBar().hide();
 
 		SystemBarMetrics.initSystemBars(this);
 		initToolbar();
@@ -729,6 +764,39 @@ public class MainActivity
 		if (editorFragment != null) {
 			boolean isVisible = editorFragment.toggleCode();
 			drawerLayout.setTouchThru(isVisible);
+			toolbar.setVisibility(View.INVISIBLE);
+
+/////////////////////////////////////////////////////////////////////////////////////
+//			WindowInsetsControllerCompat windowInsetsController =
+//					WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
+//			// Configure the behavior of the hidden system bars.
+//			windowInsetsController.setSystemBarsBehavior(
+//					WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+//			);
+//
+//			// Add a listener to update the behavior of the toggle fullscreen button when
+//			// the system bars are hidden or revealed.
+//			getWindow().getDecorView().setOnApplyWindowInsetsListener((view, windowInsets) -> {
+//				// You can hide the caption bar even when the other system bars are visible.
+//				// To account for this, explicitly check the visibility of navigationBars()
+//				// and statusBars() rather than checking the visibility of systemBars().
+//				if (windowInsets.isVisible(WindowInsetsCompat.Type.navigationBars())
+//						|| windowInsets.isVisible(WindowInsetsCompat.Type.statusBars())) {
+//
+//						// Hide both the status bar and the navigation bar.
+//					windowInsetsController.hide(WindowInsetsCompat.Type.systemBars());
+//
+//				} else {
+//
+//						// Show both the status bar and the navigation bar.
+//					windowInsetsController.show(WindowInsetsCompat.Type.systemBars());
+//
+//				}
+//				return view.onApplyWindowInsets(windowInsets);
+//			});
+
+/////////////////////////////////////////////////////////////////////////////////////
+
 		}
 	}
 

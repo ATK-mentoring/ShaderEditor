@@ -1,5 +1,7 @@
 package de.markusfisch.android.shadereditor.view;
 
+//import static java.security.AccessController.getContext;
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Rect;
@@ -10,8 +12,12 @@ import android.view.Window;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import de.markusfisch.android.shadereditor.R;
+import de.markusfisch.android.shadereditor.activity.MainActivity;
 import de.markusfisch.android.shadereditor.app.ShaderEditorApp;
 
 public class SystemBarMetrics {
@@ -28,7 +34,7 @@ public class SystemBarMetrics {
 						activity.getWindow(),
 						ShaderEditorApp.preferences.getSystemBarColor(),
 						true)) {
-			setWindowInsets(mainLayout, insets);
+			setWindowInsets(mainLayout, insets, activity);
 		}
 	}
 
@@ -76,18 +82,31 @@ public class SystemBarMetrics {
 	}
 
 	private static void setWindowInsets(final View mainLayout,
-			final Rect windowInsets) {
+			final Rect windowInsets, final AppCompatActivity activity) {
+		WindowInsetsControllerCompat windowInsetsController =
+				WindowCompat.getInsetsController(activity.getWindow(),
+						mainLayout);
+				//WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
+		// Configure the behavior of the hidden system bars.
+		windowInsetsController.setSystemBarsBehavior(
+				WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+		);
+
 		ViewCompat.setOnApplyWindowInsetsListener(mainLayout, (v, insets) -> {
-			if (insets.hasSystemWindowInsets()) {
-				int left = insets.getSystemWindowInsetLeft();
-				int top = insets.getSystemWindowInsetTop();
-				int right = insets.getSystemWindowInsetRight();
-				int bottom = insets.getSystemWindowInsetBottom();
-				mainLayout.setPadding(left, top, right, bottom);
-				if (windowInsets != null) {
-					windowInsets.set(left, top, right, bottom);
-				}
-			}
+			windowInsetsController.hide(WindowInsetsCompat.Type.systemBars());
+
+//			if (insets.hasSystemWindowInsets()) {
+//				int left = insets.getSystemWindowInsetLeft();
+//				int top = insets.getSystemWindowInsetTop();
+//				int right = insets.getSystemWindowInsetRight();
+//				int bottom = insets.getSystemWindowInsetBottom();
+//				mainLayout.setPadding(left, top, right, bottom);
+//				if (windowInsets != null) {
+//					windowInsets.set(left, top, right, bottom);
+//				}
+//			}
+			//return view.onApplyWindowInsets(windowInsets);
+
 			return insets.consumeSystemWindowInsets();
 		});
 	}
